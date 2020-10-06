@@ -31,6 +31,8 @@ document.writeln("          <a class=\'dropdown-item\' href=\'game_result\'>玩�
 document.writeln("          <a class=\'dropdown-item\' href=\'user_active\'>有效用戶/第三方銷量</a>");
 document.writeln("          <a class=\'dropdown-item\' href=\'url_token\'>註冊碼/註冊連結</a>");
 document.writeln("          <a class=\'dropdown-item\' href=\'sun_user\'>太陽成/申博用戶</a>");
+document.writeln("          <a class=\'dropdown-item\' href=\'game_prize_cal\'>全餐獎金驗證</a>");
+document.writeln("          <a class=\'dropdown-item\' href=\'qrcode_checker\'>QRCode驗證</a>");
 document.writeln("        </div>");
 document.writeln("    </div>");
 document.writeln("    <div class=\'btn-group\'>");

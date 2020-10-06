@@ -6,7 +6,7 @@ import os
 from PIL import Image
 
 
-def image_(image_name='', width='', hight=''):
+def image_resize(image_name='', width='', hight=''):
     global msg
     try:
         img_path = (os.path.join(os.path.expanduser("~"), 'Desktop'))
@@ -17,6 +17,8 @@ def image_(image_name='', width='', hight=''):
         resize.save(a)
         # print(resize.size)
         msg = '%s 調整大小成功' % image_name
+        return msg
     except FileNotFoundError as e:
         msg = ('%s檔案不存在' % image_name)
+        return msg
     # return img_path

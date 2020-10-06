@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% block title %}自動化測試{% endblock %}
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+        #username, #env_type, #yft-username {
+            border-radius: 22px;
+            background-color: #ddd;
+        }
+
+        input[type="checkbox"] {
+            zoom: 150%;
+            cursor: pointer;
+            vertical-align: sub;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        #FF4-cases > label:nth-child(7), #FF4-cases label:nth-child(10), #FF4-cases > label:nth-child(13) {
+            font-size: 120%;
+            display: inline-block;
+            margin-bottom: .5rem;
+            color: #420fde;
+        }
+
+        main {
+            padding-top: 20px;
+            padding-left: 20px;
+        }
+
+        table {
+            border: 3px solid black;
+            margin-top: 10px;
+        }
+
+        table > tr{
+            border: 1px solid black;
+            margin: 5px;
+            padding: 8px;
+        }
+
+        #thead > tr > th{
+            color : black !important;
+            border: 1px solid black;
+            padding: 8px;
+        }
+
+        tr {
+            text-align: center;
+            border: 1px solid black;
+            font-family: Microsoft JhengHei, serif;
+            margin: 5px;
+        }
+        td{
+            padding: 8px;
+        }
+    </style>
+{% endblock %}
+{% block script %}
+    <script type="text/javascript">
+        function start_check() {
+            const form = new FormData(document.getElementById('form'))
+            $.ajax({
+                url: "{{ url_for('get_qrcode_result') }}",
+                type: "post",
+                data: form,
+                processData: false,
+                contentType: false,
+                success: function (resp) {
+                    console.log(resp.content)
+                    const tbody = document.getElementById("tbody")
+                    $("#tbody tr").remove()
+                    resp.content.forEach(function (item, index) {
+                        console.log(index + " / " + item)
+                        const row = tbody.insertRow(-1);
+                        let cell;
+                        for (let i = 0; i < item.length; i++) {
+                            cell = row.insertCell(i);
+                            if (i === item.length - 1) {
+                                let image = document.createElement('img');
+                                image.src = item[i];
+                                cell.append(image);
+                                break;
+                            }
+                            cell.innerHTML = item[i];
+                        }
+                    })
+                },
+                error: function (e) {
+                    console.log(e);
+                    alert(data.msg);
+                }
+            })
+        }
+    </script>
+{% endblock %}
+
+
+{% block main %}
+    <h1>QRCode顯示</h1>
+    <form id="form" method='POST' style="display: block">
+        <input type='text' name='user' id=username size=16 placeholder="請輸入用戶名">
+        <label for="env_type">環境: </label>
+        <select name='env_type' id='env_type'>
+            <option value="dev02">dev02</option>
+            <option value="fh82dev02">fh82dev02</option>
+            <option value="teny2020dev02">teny2020dev02</option>
+            <option value="88hlqpdev02">88hlqpdev02</option>
+            <option value="joy188" selected>joy188</option>
+            <option value="joy188.teny2020">joy188.teny2020</option>
+            <option value="joy188.195353">joy188.195353</option>
+            <option value="joy188.88hlqp">joy188.88hlqp</option>
+            <option value="joy188.fh888">joy188.fh888</option>
+        </select>
+        <input type="button" value="查詢" onclick="start_check()">
+    </form>
+    <table>
+        <thead id="thead">
+        <tr>
+            <th colspan="3">QRCodes</th>
+        </tr>
+        <tr>
+            <th>位置</th>
+            <th>連結</th>
+            <th>QRCode</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+        </tbody>
+    </table>
+{% endblock %}
