@@ -3,88 +3,63 @@
 {% block head %}
     {{ super() }}
     <style type="text/css">
-        #username, #env_type, #yft-username {
-            border-radius: 22px;
-            background-color: #ddd;
-        }
-
-        input[type="checkbox"] {
-            zoom: 150%;
-            cursor: pointer;
-            vertical-align: sub;
-        }
-
-        li {
-            list-style: none;
-        }
-
-        #FF4-cases > label:nth-child(7), #FF4-cases label:nth-child(10), #FF4-cases > label:nth-child(13) {
-            font-size: 120%;
-            display: inline-block;
-            margin-bottom: .5rem;
-            color: #420fde;
-        }
-
+        #username,#env_type{border-radius: 22px;background-color: #ddd;}
+        input[type="checkbox"]{zoom:150%;cursor:pointer;vertical-align:sub;}
+        li{list-style: none;}
+        #form1 > label:nth-child(7),#form1 > label:nth-child(10),#form1 > label:nth-child(13) {
+        font-size: 120%;
+        display: inline-block;
+        margin-bottom: .5rem;
+        color: #420fde;}
         .PC_submit {
-            font-family: monospace;
-            color: #fd0e25;
-            font-size: x-large;
-        }
-
-        main {
-            padding-top: 20px;
-            padding-left: 20px;
-        }
-
-        .sub_cases {
-            box-sizing: content-box;
-            border-radius: 20px;
-            width: 1400px;
-            padding: 10px;
-            border: 3px dotted black;
+        font-family: monospace;
+        color: #fd0e25;
+        font-size: x-large; }
         }
     </style>
 {% endblock %}
 {% block script %}
     <script type="text/javascript">
         function check() {
-            var check = $("input[type='checkbox']:checked").length;//判斷PC登入 一定要勾選
+            var check = $("input[name='test_Suite']:checked").length;//判斷PC登入 一定要勾選
             var driver_check = $('#Pc_driver').children(':checked').length;
-            console.log('driver_check : ' + driver_check)
+            console.log(driver_check)
             //console.log(check)
-            if (check === 0) {
+            if (check == 0) {
                 alert("你未勾選任何項目");
                 return false;//不要提交表單
-            }
-            {#else if (check > 20) {#}
-            {#    console.log('check : ' + check)#}
-            {#    alert("PC自動化案例,不建議和街口案例一起, 抱歉");#}
-            {#    $('#Pc_driver').children(':checkbox').prop('checked', this.checked);#}
-            {#    location.reload();}#}
-            else if ($('#username').val() === '') {
+            } else if (check > 20) {
+                console.log(check)
+                alert("PC自動化案例,不建議和街口案例一起, 抱歉");
+                $('#Pc_driver').children(':checkbox').prop('checked', $(this).is(':checked') ? true : false);
+                location.reload();
+            } else if ($('#username').val() == '') {
                 alert('請輸入用戶名')
                 location.reload();
             } else if (driver_check > 3) {
                 alert('PC自動化案例暫停開放謝謝')
                 location.reload();
-            } else {
+            } 
+            else {
                 $.ajax({
                     url: "/autoTest",
                     type: 'POST',
                     headers: {
                         Accept: "application/json; charset=utf-8"
                     },
-                    data: $('#FF4-cases').serialize(),
+                    data: $('#form1').serialize(),
                     success: function (data) {
-                        console.log(data)
+
+                    var result = data;
+                    console.log(data)
                         //$("#content").append('<p>'+data+'</p>')
-                        if (data === '此環境沒有該用戶') {
-                            alert('此環境沒有該用戶')
-                            location.reload();
-                        } else {
-                            //$("#content").append('<p>'+data+'</p>')
-                            //console.log(data)
-                            $(window).attr("location", "/report")
+                    if (data == '此環境沒有該用戶') {
+                        alert('此環境沒有該用戶')
+                        location.reload();
+                    } else {
+                        //$("#content").append('<p>'+data+'</p>')
+                        //console.log(data)
+                        $(window).attr("location", "/report")
                         }
                     }
                 })
@@ -102,113 +77,38 @@
             //source.close()
         }
 
-        function yft_check() {
-            const check = $("input[type='checkbox']:checked").length;//判斷PC登入 一定要勾選
-            if (check === 0) {
-                alert("你未勾選任何項目");
-                return false;//不要提交表單
-            } else if ($('#yft-username').val() === '') {
-                alert('請輸入用戶名')
-                location.reload();
-            } else {
-                $.ajax({
-                    url: "/autoTest",
-                    type: 'POST',
-                    headers: {
-                        Accept: "application/json; charset=utf-8"
-                    },
-                    data: $('#yft-cases').serialize(),
-                    success: function (data) {
-                        console.log(data)
-                        if (typeof data === 'string' && data.length < 20) {
-                            alert(data)
-                            location.reload();
-                        } else {
-                            $(window).attr("location", "/report")
-                        }
-                    }
-                })
-            }
-            //console.log(data)
-
-            event.preventDefault();
-            var source = new EventSource("/progress");
-            //var msg = 'start'
-            source.onmessage = function (event) {
-                //console.log(data)
-                $('.progress-bar').css('width', event.data + '%').attr('aria-valuenow', event.data);
-                $('.progress-bar-label').text(event.data + '%');
-            }
-            //source.close()
-        }
 
     </script>
 
     <script>
         $(document).ready(function () {
-            //切換FF4.0 / YFT
-            $('input[type=radio][name=plat]').change(function () {
-                if (this.value === 'plat-FF4.0') {
-                    $('#FF4-cases').attr('style', 'display:block')
-                    $('#yft-cases').attr('style', 'display:none')
-                } else if (this.value === 'plat-YFT') {
-                    $('#FF4-cases').attr('style', 'display:none')
-                    $('#yft-cases').attr('style', 'display:block')
-                }
-            });
-
             //checkbox全選功能 , PC,APP, driver
             $('#PcChecked').change(function () {//PC接口全選
-                $('#Pc_login').children(':checkbox').prop('checked', this.checked);
+                $('#Pc_login').children(':checkbox').prop('checked', $(this).is(':checked') ? true : false);
             });
             $('#AppChecked').change(function () {//APP接口全選
-                $('#App_login').children(':checkbox').prop('checked', this.checked);
+                $('#App_login').children(':checkbox').prop('checked', $(this).is(':checked') ? true : false);
             });
             $('#DriverChecked').change(function () {//Pc自動化全選
-                $('#Pc_driver').children(':checkbox').prop('checked', this.checked);
-            });
+                $('#Pc_driver').children(':checkbox').prop('checked', $(this).is(':checked') ? true : false);
 
-            $("input[id^='test_Pc']").change(function () {//PC 子項目勾選後, 登入 會跟著一起勾,
-                $('#test_PcLogin').prop('checked', this.checked);
-                var check = $("input[id='test_PcLogin']:checked").length;//PC登入長度, 長度0 ,子項目必為空
-                if (check === 0) {
-                    $("input[id^='test_Pc']").prop('checked', this.checked);
-                }
             });
             $("input[id^='test_App']").change(function () {// 讓 APP登入為必要勾選, 只要勾了 子項目,必勾登入
-                $('#test_AppLogin').prop('checked', this.checked);
+                $('#test_AppLogin').prop('checked', $(this).is(':checked') ? true : false);
                 var check = $("input[id='test_AppLogin']:checked").length; //判斷APP登入長度, 如果長度為0, 其他子項目 必為空
-                if (check === 0) {
-                    $("input[id^='test_App']").prop('checked', this.checked);
+                if (check == 0) {
+                    $("input[id^='test_App']").prop('checked', $(this).is(':checked') ? true : false);
+                }
+            });
+            $("input[id^='test_Pc']").change(function () {//PC 子項目勾選後, 登入 會跟著一起勾,
+                $('#test_PcLogin').prop('checked', $(this).is(':checked') ? true : false);
+                var check = $("input[id='test_PcLogin']:checked").length;//PC登入長度, 長度0 ,子項目必為空
+                if (check == 0) {
+                    $("input[id^='test_Pc']").prop('checked', $(this).is(':checked') ? true : false);
                 }
             });
             $("input[id='test_PCLotterySubmit']").change(function () {//PC投注測試
-                $('#test_PcLogin').prop('checked', this.checked);
-            });
-
-            //YFT投注大開關
-            $("input[id='pc_bet']").change(function () {
-                if (this.checked === true) {
-                    $('#pc_bet_cases').attr('style', 'display:block').children(':checkbox').prop('checked', this.checked);
-                } else if (this.checked === false) {
-                    $('#pc_bet_cases').attr('style', 'display:none').children(':checkbox').prop('checked', this.checked);
-                }
-            })
-            $("input[id='iapi_bet']").change(function () {
-                if (this.checked === true) {
-                    $('#iapi_bet_cases').attr('style', 'display:block').children(':checkbox').prop('checked', this.checked);
-                } else if (this.checked === false) {
-                    $('#iapi_bet_cases').attr('style', 'display:none').children(':checkbox').prop('checked', this.checked);
-                }
-            })
-
-            $('#yft-PC').change(function () {//YFT-PC自動化全選
-                $('#yft-PC-cases').children(':checkbox').prop('checked', this.checked);
-                $("input[id='pc_bet']").change()
-            });
-            $('#yft-APP').change(function () {//YFT-PC自動化全選
-                $('#yft-APP-cases').children(':checkbox').prop('checked', this.checked);
-                $("input[id='iapi_bet']").change()
+                $('#test_PcLogin').prop('checked', $(this).is(':checked') ? true : false);
             });
         });
     </script>
@@ -217,17 +117,9 @@
 
 {% block main %}
     <h1>測試案例</h1>
-    <p>
-        &nbsp;&nbsp;&nbsp;
-        <label for="plat-FF">FF4.0</label>
-        <input type="radio" name="plat" id="plat-FF" value="plat-FF4.0" checked>
-        &nbsp;&nbsp;&nbsp;
-        <label for="plat-yft">YFT</label>
-        <input type="radio" name="plat" id="plat-yft" value="plat-YFT">
-    </p>
-    <form id="FF4-cases" method='POST' style="display: block">
-        <input type='text' name='user_name' id=username size=16 placeholder="請輸入用戶名">
-        <label for="env_type">環境: </label>
+    <form id='form1' method='POST'>
+        <input type='text' name='username' id=username size=16 placeholder="請輸入用戶名">
+        <label>環境: </label>
         <select name='env_type' id='env_type'>
             <option value="dev02">dev02</option>
             <option value="fh82dev02">fh82dev02</option>
@@ -240,37 +132,30 @@
             <option value="joy188.fh888">joy188.fh888</option>
 
         </select>
-        <br>
-        <input type='checkbox' id='PcChecked'><label for="PcChecked">PC接口測試</label>
+        <br></br>
+        <input type='checkbox' id='PcChecked'>PC接口測試
         <div id='Pc_login'>
-            <input type="checkbox" name="api_test_pc" id="test_PcLogin" value="test_PcLogin"><label for="test_PcLogin">登入測試</label>
-            <input type="checkbox" name="api_test_pc" id="test_PcThirdHome" value="test_PcThirdHome"><label
-                for="test_PcThirdHome">第三方頁面測試</label>
-            <input type="checkbox" name="api_test_pc" id="test_PcFFHome" value="test_PcFFHome"><label
-                for="test_PcFFHome">4.0頁面測試</label>
-            <input type="checkbox" name="api_test_pc" id="test_PcChart" value="test_PcChart"><label for="test_PcChart">走勢圖測試</label>
-            <input type="checkbox" name="api_test_pc" id="test_PcThirdBalance" value="test_PcThirdBalance"><label
-                for="test_PcThirdBalance">4.0/第三方餘額測試</label>
-            <input type="checkbox" name="api_test_pc" id="test_PcTransferin" value="test_PcTransferin"><label
-                for="test_PcTransferin">第三方轉入測試</label>
-            <input type="checkbox" name="api_test_pc" id="test_PcTransferout" value="test_PcTransferout"><label
-                for="test_PcTransferout">第三方轉出測試</label>
-            <input type="checkbox" name="api_test_pc" id="test_PcredEnvelope" value="test_redEnvelope"><label
-                for="test_PcredEnvelope">紅包加幣</label>
-            <br><input type="checkbox" name="api_test_pc" id="test_PCLotterySubmit" value="test_PCLotterySubmit"><label
-                for="test_PCLotterySubmit">PC投注測試</label>
-            <label for="red_type">紅包投注: </label>
+            <input type="checkbox" name="test_Suite" id="test_PcLogin" value="test_PcLogin">登入測試
+            <input type="checkbox" name="test_Suite" id="test_PcThirdHome" value="test_PcThirdHome">第三方頁面測試
+            <input type="checkbox" name="test_Suite" id="test_PcFFHome" value="test_PcFFHome">4.0頁面測試
+            <input type="checkbox" name="test_Suite" id="test_PcChart" value="test_PcChart">走勢圖測試
+            <input type="checkbox" name="test_Suite" id="test_PcThirdBalance" value="test_PcThirdBalance">4.0/第三方餘額測試
+            <input type="checkbox" name="test_Suite" id="test_PcTransferin" value="test_PcTransferin">第三方轉入測試
+            <input type="checkbox" name="test_Suite" id="test_PcTransferout" value="test_PcTransferout">第三方轉出測試
+            <input type="checkbox" name="test_Suite" id="test_PcredEnvelope" value="test_redEnvelope">紅包加幣
+            <br><input type="checkbox" name="test_Suite" id="test_PCLotterySubmit" value="test_PCLotterySubmit">PC投注測試
+            <label>紅包投注: </label>
             <select name='red_type' id='red_type'>
                 <option value="no">否</option>
                 <option value="yes">是</option>
             </select>
-            <label class='PC_submit' for="awardmode">獎金玩法</label>
+            <label class='PC_submit'>獎金玩法</label>
             <select name='awardmode' id='awardmode'>
                 <option value='0'>預設</option>
                 <option value='1'>一般</option>
                 <option value='2'>高獎金</option>
             </select>
-            <label class='PC_submit' for="moneymode">元角分</label>
+            <label class='PC_submit'>元角分</label>
             <select name='moneymode' id='moneymode'>
                 <option value='1'>元</option>
                 <option value='2'>角</option>
@@ -278,185 +163,28 @@
             </select>
             </p>
         </div>
-        <br>
-        <input type='checkbox' id='AppChecked'><label for="AppChecked">APP接口測試</label>
+        <br></br>
+        <input type='checkbox' id='AppChecked'>APP接口測試
         <div id='App_login'>
-            <input type="checkbox" name="api_test_app" id="test_AppLogin" value="test_AppLogin"><label
-                for="test_AppLogin">登入測試</label>
-            <input type="checkbox" name="api_test_app" id="test_AppSubmit" value="test_AppSubmit"><label
-                for="test_AppSubmit">投注測試</label>
-            <input type="checkbox" name="api_test_app" id="test_AppOpenLink" value="test_AppOpenLink"><label
-                for="test_AppOpenLink">開戶/註冊測試</label>
-            <input type="checkbox" name="api_test_app" id="test_AppBalance" value="test_AppBalance"><label
-                for="test_AppBalance">4.0/第三方餘額測試</label>
-            <input type="checkbox" name="api_test_app" id="test_ApptransferIn" value="test_ApptransferIn"><label
-                for="test_ApptransferIn">第三方轉入測試</label>
-            <input type="checkbox" name="api_test_app" id="test_ApptransferOut" value="test_ApptransferOut"><label
-                for="test_ApptransferOut">第三方轉出測試</label>
+            <input type="checkbox" name="test_Suite" id="test_AppLogin" value="test_AppLogin">登入測試
+            <input type="checkbox" name="test_Suite" id="test_AppSubmit" value="test_AppSubmit">投注測試
+            <input type="checkbox" name="test_Suite" id="test_AppOpenLink" value="test_AppOpenLink">開戶/註冊測試
+            <input type="checkbox" name="test_Suite" id="test_AppBalance" value="test_AppBalance">4.0/第三方餘額測試
+            <input type="checkbox" name="test_Suite" id="test_ApptransferIn" value="test_ApptransferIn">第三方轉入測試
+            <input type="checkbox" name="test_Suite" id="test_ApptransferOut" value="test_ApptransferOut">第三方轉出測試
+
         </div>
 
-        <br>
-        <input type='checkbox' id='DriverChecked'><label for="DriverChecked">PC自動化測試</label>
+        <br></br>
+        <input type='checkbox' id='DriverChecked'>PC自動化測試
         <div id='Pc_driver'>
-            <input type="checkbox" name="integration_test_pc" id="safepersonal" value="test_change_password"><label
-                for="safepersonal">修改登入密碼測試</label>
-            <input type="checkbox" name="integration_test_pc" id="applycenter" value="test_applycenter"><label
-                for="applycenter">開戶注測/設置安全中心/銀行綁定 測試</label>
-            <input type="checkbox" name="integration_test_pc" id="mul_lottery" value="test_plan"><label
-                for="mul_lottery">彩種追號案例</label>
+            <input type="checkbox" name="test_Suite" id="safepersonal" value="test_safepersonal">修改登入密碼測試
+            <input type="checkbox" name="test_Suite" id="applycenter" value="test_applycenter">
+            開戶注測/設置安全中心/銀行綁定 測試
+            <input type="checkbox" name="test_Suite" id="mul_lottery" value="test_plan">彩種追號案例
         </div>
         <input type='checkbox' id='AllChecked' style="display:none;">
         <p><input type="button" onclick="check()" value="执行"></p>
-    </form>
-    <form id='yft-cases' method='POST' style="display: none">
-        <label for='yft-username'>用戶名：</label><input type='text' name='user_name' id='yft-username' size=16
-                                                     placeholder="請輸入用戶名">　
-        <label for="env_type">　環境: </label>
-        <select name='env_type' id='env_type'>
-            <option value="yulin.qa">yulin.qa</option>
-            <option value="feiao.qa">feiao.qa</option>
-            <option value="tianya.qa">tianya.qa</option>
-        </select>　　
-        <input type="checkbox" name="ignore_user_check" id="ignore_user_check" value="yes"><label
-            for='ignore_user_check'>忽略用戶DB驗證</label><br>
-        <br>
-        <input type='checkbox' id='yft-PC'><label for='yft-PC'>PC接口測試</label>
-        <div id='yft-PC-cases'>
-            <input type="checkbox" id="pc_bet"><label
-                for='pc_bet'>PC Api投注測試</label>
-            <input type="checkbox" id="pc_reg" name="api_test_pc" value="test_create_user"><label for="pc_reg">PC 註冊功能測試</label>
-            <br>
-            <div id='pc_bet_cases' style="display: none" class="sub_cases">
-                <input type="checkbox" name="api_test_pc" id="api_qqffc" value="test_bet_qqffc"><label
-                    for='api_qqffc'>QQ分分彩投注</label>
-                <input type="checkbox" name="api_test_pc" id="api_hjcqssc" value="test_bet_hjcqssc"><label
-                    for='api_hjcqssc'>懷舊重慶時時彩投注</label>
-                <input type="checkbox" name="api_test_pc" id="api_ynffc" value="test_bet_ynffc"><label
-                    for='api_ynffc'>印尼分分彩投注</label>
-                <input type="checkbox" name="api_test_pc" id="api_tcffc" value="test_bet_tcffc"><label
-                    for='api_tcffc'>騰訊分分彩投注</label>
-                <input type="checkbox" name="api_test_pc" id="api_se15fc" value="test_bet_se15fc"><label
-                    for='api_se15fc'>首爾1.5分彩投注</label>
-                <input type="checkbox" name="api_test_pc" id="api_yn2fc" value="test_bet_yn2fc"><label
-                    for='api_yn2fc'>印尼2分彩投注</label>    
-                <input type="checkbox" name="api_test_pc" id="api_xjssc" value="test_bet_xjssc"><label
-                    for='api_xjssc'>新疆時時彩投注</label>      
-                <input type="checkbox" name="api_test_pc" id="api_tjssc" value="test_bet_tjssc"><label
-                    for='api_tjssc'>天津時時彩投注</label>     
-                <input type="checkbox" name="api_test_pc" id="api_tcdffc" value="test_bet_tcdffc"><label
-                    for='api_tcdffc'>騰訊兩分彩投注</label>
-                <input type="checkbox" name="api_test_pc" id="api_cqssc" value="test_bet_cqssc"><label
-                    for='api_cqssc'>重慶時時彩投注</label><br>
-                <input type="checkbox" name="api_test_pc" id="api_fhxyft" value="test_bet_fhxyft"><label
-                    for='api_fhxyft'>幸運飛艇投注</label>
-                <input type="checkbox" name="api_test_pc" id="api_bjpk10" value="test_bet_bjpk10"><label
-                    for='api_bjpk10'>PK10投注</label>
-                <input type="checkbox" name="api_test_pc" id="api_djpk10" value="test_bet_djpk10"><label
-                    for='api_djpk10'>東京PK10投注</label><br>
-                <input type="checkbox" name="api_test_pc" id="api_xyftpk10" value="test_bet_xyftpk10"><label
-                    for='api_xyftpk10'>皇家幸運飛艇投注</label>
-                <input type="checkbox" name="api_test_pc" id="api_metftpk10" value="test_bet_metftpk10"><label
-                    for='api_metftpk10'>馬爾他飛艇投注</label>
-                <input type="checkbox" name="api_test_pc" id="api_xnpk10" value="test_bet_xnpk10"><label
-                    for='api_xnpk10'>悉尼PK10投注</label><br>
-                <input type="checkbox" name="api_test_pc" id="api_ahk3" value="test_bet_ahk3"><label
-                    for='api_ahk3'>安徽快三投注</label>
-                <input type="checkbox" name="api_test_pc" id="api_hbk3" value="test_bet_hbk3"><label
-                    for='api_hbk3'>湖北快三投注</label>
-                <input type="checkbox" name="api_test_pc" id="api_jsk3" value="test_bet_jsk3"><label
-                    for='api_jsk3'>江蘇快三投注</label><br>
-                <input type="checkbox" name="api_test_pc" id="api_sd11x5" value="test_bet_sd11x5"><label
-                    for='api_sd11x5'>山東11選5投注</label>
-                <input type="checkbox" name="api_test_pc" id="api_jx11x5" value="test_bet_jx11x5"><label
-                    for='api_jx11x5'>江西11選5投注</label>
-                <input type="checkbox" name="api_test_pc" id="api_sh11x5" value="test_bet_sh11x5"><label
-                    for='api_sh11x5'>上海11選5投注</label>
-                <input type="checkbox" name="api_test_pc" id="api_js11x5" value="test_bet_js11x5"><label
-                    for='api_js11x5'>江蘇11選5投注</label>
-                <input type="checkbox" name="api_test_pc" id="api_gd11x5" value="test_bet_gd11x5"><label
-                    for='api_gd11x5'>廣東11選5投注</label>
-                <label class='PC_submit' for="awardmode">獎金玩法</label>
-                <select name='awardmode' id='awardmode'>
-                    <option value='1'>一般</option>
-                    <option value='2'>高獎金</option>
-                </select>
-                <label class='PC_submit' for="moneymode">元角分</label>
-                <select name='moneymode' id='moneymode'>
-                    <option value='1'>元</option>
-                    <option value='0.1'>角</option>
-                    <option value='0.01'>分</option>
-                </select>
-            </div>
-        </div>
-        <br>
-        <input type='checkbox' id='yft-APP'><label for="yft-APP">APP接口測試</label>
-        <div id='yft-APP-cases'>
-            <input type="checkbox" id="iapi_bet"><label
-                for='iapi_bet'>APP Api投注測試</label><br>
-            <div id='iapi_bet_cases' style="display: none" class="sub_cases">
-                <input type="checkbox" name="api_test_app" id="iapi_qqffc" value="test_bet_qqffc"><label
-                    for='iapi_qqffc'>QQ分分彩投注</label>
-                <input type="checkbox" name="api_test_app" id="iapi_hjcqssc" value="test_bet_hjcqssc"><label
-                    for='iapi_hjcqssc'>懷舊重慶時時彩投注</label>
-                <input type="checkbox" name="api_test_app" id="iapi_ynffc" value="test_bet_ynffc"><label
-                    for='iapi_ynffc'>印尼分分彩投注</label>
-                <input type="checkbox" name="iapi_test_app" id="iapi_tcffc" value="test_bet_tcffc"><label
-                    for='iapi_tcffc'>騰訊分分彩投注</label>
-                <input type="checkbox" name="api_test_app" id="iapi_se15fc" value="test_bet_se15fc"><label
-                    for='iapi_se15fc'>首爾1.5分彩投注</label>
-                <input type="checkbox" name="api_test_app" id="iapi_yn2fc" value="test_bet_yn2fc"><label
-                    for='iapi_yn2fc'>印尼2分彩投注</label>    
-                <input type="checkbox" name="api_test_app" id="iapi_xjssc" value="test_bet_xjssc"><label
-                    for='iapi_xjssc'>新疆時時彩投注</label>      
-                <input type="checkbox" name="api_test_app" id="iapi_tjssc" value="test_bet_tjssc"><label
-                    for='iapi_tjssc'>天津時時彩投注</label>     
-                <input type="checkbox" name="api_test_app" id="iapi_tcdffc" value="test_bet_tcdffc"><label
-                    for='iapi_tcdffc'>騰訊兩分彩投注</label>
-                <input type="checkbox" name="api_test_app" id="iapi_cqssc" value="test_bet_cqssc"><label
-                    for='iapi_cqssc'>重慶時時彩投注</label><br>
-                <input type="checkbox" name="api_test_app" id="iapi_fhxyft" value="test_bet_fhxyft"><label
-                    for="iapi_fhxyft">幸運飛艇投注</label>
-                <input type="checkbox" name="api_test_app" id="iapi_bjpk10" value="test_bet_bjpk10"><label
-                    for="iapi_bjpk10">PK10投注</label>
-                <input type="checkbox" name="api_test_app" id="iapi_djpk10" value="test_bet_djpk10"><label
-                    for='iapi_djpk10'>東京PK10投注</label><br>
-                <input type="checkbox" name="api_test_app" id="iapi_xyftpk10" value="test_bet_xyftpk10"><label
-                    for='iapi_xyftpk10'>皇家幸運飛艇投注</label>
-                <input type="checkbox" name="api_test_app" id="iapi_metftpk10" value="test_bet_metftpk10"><label
-                    for='iapi_metftpk10'>馬爾他飛艇投注</label>
-                <input type="checkbox" name="api_test_app" id="iapi_xnpk10" value="test_bet_xnpk10"><label
-                    for='iapi_xnpk10'>悉尼PK10投注</label><br>
-                <input type="checkbox" name="api_test_app" id="iapi_ahk3" value="test_bet_ahk3"><label
-                    for='iapi_ahk3'>安徽快三投注</label>
-                <input type="checkbox" name="api_test_app" id="iapi_hbk3" value="test_bet_hbk3"><label
-                    for='iapi_hbk3'>湖北快三投注</label>
-                <input type="checkbox" name="api_test_app" id="iapi_jsk3" value="test_bet_jsk3"><label
-                    for='iapi_jsk3'>江蘇快三投注</label><br>
-                <input type="checkbox" name="api_test_app" id="iapi_sd11x5" value="test_bet_sd11x5"><label
-                    for='iapi_sd11x5'>山東11選5投注</label>
-                <input type="checkbox" name="api_test_app" id="iapi_jx11x5" value="test_bet_jx11x5"><label
-                    for='iapi_jx11x5'>江西11選5投注</label>
-                <input type="checkbox" name="api_test_app" id="iapi_sh11x5" value="test_bet_sh11x5"><label
-                    for='iapi_sh11x5'>上海11選5投注</label>
-                <input type="checkbox" name="api_test_app" id="iapi_js11x5" value="test_bet_js11x5"><label
-                    for='iapi_js11x5'>江蘇11選5投注</label>
-                <input type="checkbox" name="api_test_app" id="iapi_gd11x5" value="test_bet_gd11x5"><label
-                    for='iapi_gd11x5'>廣東11選5投注</label>
-                <label class='PC_submit' for="awardmode">獎金玩法</label>
-                <select name='awardmode' id='awardmode'>
-                    <option value='1'>一般</option>
-                    <option value='2'>高獎金</option>
-                </select>
-                <label class='PC_submit' for="moneymode">元角分</label>
-                <select name='moneymode' id='moneymode'>
-                    <option value='1'>元</option>
-                    <option value='0.1'>角</option>
-                    <option value='0.01'>分</option>
-                </select>
-            </div>
-        </div>
-        <br>
-        <p><input type="button" onclick="yft_check()" value="执行"></p>
     </form>
     <h3>進度條顯示</h3>
     <div class="progress" style="width: 750px;height: 22px; margin: 10px;">

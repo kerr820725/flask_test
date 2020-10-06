@@ -3,166 +3,203 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>測試報告</title>
-    <meta name="generator" content="HTMLTestRunner 0.8.21"/>
+    <meta name="generator" content="HTMLTestRunner 0.8.2"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
     <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script src="http://apps.bdimg.com/libs/Chart.js/0.2.0/Chart.min.js"></script>
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>																					
-	
-    
-<style type="text/css" media="screen">
-body        { font-family: Microsoft YaHei,Tahoma,arial,helvetica,sans-serif;padding: 20px; font-size: 80%; }
-table       { font-size: 100%; }
-				
-/* -- heading ---------------------------------------------------------------------- */
-	
-				 
-			 
- 
-.heading {
-					
-    margin-top: 0ex;
-    margin-bottom: 1ex;
-				   
-}
-					 
-					
-					
-					 
- 
-.heading .description {
-					
-    margin-top: 4ex;
-    margin-bottom: 6ex;
-}
-																															  
-			  
- 
-					
-			   
- 
-			   
-				  
-					   
-			  
-			 
-								   
-																	 
-					 
-					
-				 
- 
- 
-/* -- report ------------------------------------------------------------------------ */
-				   
-					
-					   
-					  
- 
-			   
-			   
-							  
-						   
-					  
- 
-			 
-					   
-				   
-							  
-						   
-						  
-				 
- 
-				  
-				  
-							  
-				 
- 
-#total_row  { font-weight: bold; }
-										  
-										  
-										  
-.passCase   { color: #5cb85c; }
-.failCase   { color: #d9534f; font-weight: bold; }
-.errorCase  { color: #f0ad4e; font-weight: bold; }
-.hiddenRow  { display: none; }
-.testcase   { margin-left: 2em; }
-																												  
-		 
- 
-																																					  
-																   
-			
-				
-							  
-						  
- 
-			
-				
-							  
-						  
- 
-			
-				
-							  
-						  
- 
-</style>
+    <!-- <link href="https://cdn.bootcss.com/echarts/3.8.5/echarts.common.min.js" rel="stylesheet">   -->
+
+
+    <style type="text/css" media="screen">
+        body {
+            font-family: verdana, arial, helvetica, sans-serif;
+            font-size: 80%;
+        }
+
+        table {
+            font-size: 100%;
+        }
+
+        pre {
+        }
+
+        /* -- heading ---------------------------------------------------------------------- */
+        h1 {
+            font-size: 16pt;
+            color: gray;
+        }
+
+        .heading {
+            font-size: 12px;
+            margin-top: 0ex;
+            margin-bottom: 1ex;
+            margin-left: 10px;
+        }
+
+        .heading .attribute {
+            font-size: 12px;
+            margin-top: 1ex;
+            margin-bottom: 0;
+        }
+
+        .heading .description {
+            font-size: 12px;
+            margin-top: 4ex;
+            margin-bottom: 6ex;
+        }
+
+        /* -- css div popup ------------------------------------------------------------------------ */
+        a.popup_link {
+        }
+
+        a.popup_link:hover {
+            color: red;
+        }
+
+        .popup_window {
+            display: none;
+            position: relative;
+            left: 0px;
+            top: 0px;
+            /*border: solid #627173 1px; */
+            font-family: "Lucida Console", "Courier New", Courier, monospace;
+            text-align: left;
+            font-size: 12pt;
+            width: 500px;
+        }
+
+
+        /* -- report ------------------------------------------------------------------------ */
+        #show_detail_line {
+            margin-top: 3ex;
+            margin-bottom: 1ex;
+            margin-left: 10px;
+        }
+
+        #result_table {
+            width: 80%;
+            border-collapse: collapse;
+            border: 1px solid #777;
+            margin-left: 10px;
+        }
+
+        #header_row {
+            font-weight: bold;
+            color: #606060;
+            background-color: #f5f5f5;
+            border-top-width: 10px;
+            border-color: #d6e9c6;
+            font-size: 12px;
+        }
+
+        #result_table td {
+            font-size: 10px;
+            border: 1px solid #f5f5f5;
+            padding: 2px;
+        }
+
+        #total_row {
+            font-weight: bold;
+        }
+
+        .passClass {
+            background-color: #d6e9c6;
+        }
+
+        .failClass {
+            background-color: #faebcc;
+        }
+
+        .errorClass {
+            background-color: #ebccd1;
+        }
+
+        .passCase {
+            color: #6c6;
+        }
+
+        .failCase {
+            color: #c60;
+            font-weight: bold;
+        }
+
+        .errorCase {
+            color: #c00;
+            font-weight: bold;
+        }
+
+        .hiddenRow {
+            display: none;
+        }
+
+        .testcase {
+            margin-left: 2em;
+        }
+
+        /* -- ending ---------------------------------------------------------------------- */
+        #ending {
+        }
+
+        /* -- chars ---------------------------------------------------------------------- */
+        .testChars {
+            margin-left: 150px;
+            font-size: 10px;
+            text-align: center;
+        }
+
+        .btn-info1 {
+            color: #fff;
+            background-color: #28B463;
+            border-color: #d6e9c6;
+        }
+
+        .btn-info2 {
+            color: #fff;
+            background-color: #D4AC0D;
+            border-color: #faebcc;
+        }
+
+        .btn-info3 {
+            color: #fff;
+            background-color: #D35400;
+            border-color: #ebccd1;
+        }
+    </style>
 
 </head>
-<body >
-<script language="javascript" type="text/javascript">
+<body>
+<script language="javascript" type="text/javascript"><!--
 output_list = Array();
-/*level 调整增加只显示通过用例的分类 --Findyou
-0:Summary //all hiddenRow
-1:Failed  //pt hiddenRow, ft none
-2:Pass    //pt none, ft hiddenRow
-3:All     //pt none, ft none
-4:Error  
-*/
+
+/* level - 0:Summary; 1:Failed; 2:All */
 function showCase(level) {
     trs = document.getElementsByTagName("tr");
     for (var i = 0; i < trs.length; i++) {
         tr = trs[i];
         id = tr.id;
-        if (id.substr(0,2) == 'ft') {
-            if (level == 2 || level == 0 ) {
+        if (id.substr(0, 2) == 'ft') {
+            if (level < 1) {
                 tr.className = 'hiddenRow';
-            }
-            else {
+            } else {
                 tr.className = '';
             }
         }
-        if (id.substr(0,2) == 'pt') {
-            if (level < 2 || level ==4) {
+        if (id.substr(0, 2) == 'pt') {
+            if (level > 1) {
+                tr.className = '';
+            } else {
                 tr.className = 'hiddenRow';
             }
-            else {
-                tr.className = '';
-            }
-        }
-    }
-    //加入【详细】切换文字变化 --Findyou
-    detail_class=document.getElementsByClassName('detail');
-    //console.log(detail_class.length)
-    if (level == 3) {
-        for (var i = 0; i < detail_class.length; i++){
-            detail_class[i].innerHTML="收起"
-        }
-    }
-    else{
-            for (var i = 0; i < detail_class.length; i++){
-            detail_class[i].innerHTML="详细"
         }
     }
 }
+
 function showClassDetail(cid, count) {
     var id_list = Array(count);
     var toHide = 1;
     for (var i = 0; i < count; i++) {
-        //ID修改 点 为 下划线 -Findyou
-        tid0 = 't' + cid.substr(1) + '_' + (i+1);
+        tid0 = 't' + cid.substr(1) + '.' + (i + 1);
         tid = 'f' + tid0;
         tr = document.getElementById(tid);
         if (!tr) {
@@ -176,264 +213,177 @@ function showClassDetail(cid, count) {
     }
     for (var i = 0; i < count; i++) {
         tid = id_list[i];
-        //修改点击无法收起的BUG，加入【详细】切换文字变化 --Findyou
         if (toHide) {
-																															
+            document.getElementById('div_' + tid).style.display = 'none'
             document.getElementById(tid).className = 'hiddenRow';
-            document.getElementById(cid).innerText = "详细"
-        }
-        else {
+        } else {
             document.getElementById(tid).className = '';
-            document.getElementById(cid).innerText = "收起"
         }
     }
 }
-								
-													 
-												
-						  
-								   
-							  
-										   
-	 
-		  
-										  
-	 
- 
+
+function showTestDetail(div_id) {
+    var details_div = document.getElementById(div_id)
+    var displayState = details_div.style.display
+    // alert(displayState)
+    if (displayState != 'block') {
+        displayState = 'block'
+        details_div.style.display = 'block'
+    } else {
+        details_div.style.display = 'none'
+    }
+}
+
 function html_escape(s) {
-    s = s.replace(/&/g,'&amp;');
-    s = s.replace(/</g,'&lt;');
-    s = s.replace(/>/g,'&gt;');
+    s = s.replace(/&/g, '&amp;');
+    s = s.replace(/</g, '&lt;');
+    s = s.replace(/>/g, '&gt;');
     return s;
 }
-</script>
-							   
-								 
-						 
-																																
-				   
-					 
-										  
-				  
-															   
-						
-			  
- 
-  
-			
+
+/* obsoleted by detail in <div>
+function showOutput(id, name) {
+    var w = window.open("", //url
+                    name,
+                    "resizable,scrollbars,status,width=800,height=450");
+    d = w.document;
+    d.write("<pre>");
+    d.write(html_escape(output_list[id]));
+    d.write("\n");
+    d.write("<a href='javascript:window.close()'>close</a>\n");
+    d.write("</pre>\n");
+    d.close();
+}
+*/
+--></script>
 <div class='heading'>
-<h4 style="font-family: Microsoft YaHei">測試報告</h4>
-<p class='attribute'><strong>测试人员 : </strong> FH</p>
-<p class='attribute'><strong>开始时间 : </strong> 2020-07-17 17:28:36</p>
-<p class='attribute'><strong>合计耗时 : </strong> 0:01:17.036616</p>
-<p class='attribute'><strong>测试结果 : </strong> 共 3，通过 3，通过率= 100.00%</p>
+    <h1>測試報告</h1>
+    <p class='attribute'><strong>Start Time:</strong> 2020-06-10 15:45:58</p>
+    <p class='attribute'><strong>Duration:</strong> 0:00:38.886129</p>
+    <p class='attribute'><strong>Status:</strong> Pass 1</p>
 
-<p class='description'>環境: &lt;utils.Config.EnvConfig object at 0x0000014E8BFA2A88&gt;,帳號: flask188</p>
+    <p class='description'>環境: joy188,帳號: twen101</p>
 </div>
-														   
-							  
-											   
-												
-												
-	  
+<div style="float:left; margin-left: 10px; font-size:12px">
+    <p> Test Case Pie charts </p>
+    <a class="btn btn-xs btn-info1">-Pass-</a><br>
+    <a class="btn btn-xs btn-info2">-Faild-</a><br>
+    <a class="btn btn-xs btn-info3">-Error-</a><br>
+</div>
 
-									  
-																					
-	  
+<div class="testChars" style="center">
+    <canvas id="myChart" width="250" height="250"></canvas>
+</div>
 
 
-<p id='show_detail_line'>
-<a class="btn btn-primary" href='javascript:showCase(0)'>概要{ 100.00% }</a>
-<a class="btn btn-warning" href='javascript:showCase(4)'>错误{ 0 }</a>
-<a class="btn btn-danger" href='javascript:showCase(1)'>失败{ 0 }</a>
-<a class="btn btn-success" href='javascript:showCase(2)'>通过{ 3 }</a>
-<a class="btn btn-info" href='javascript:showCase(3)'>所有{ 3 }</a>
+<p id='show_detail_line' style="margin-left: 16px; font-size:12px">Show
+    <a href='javascript:showCase(0)' class="btn btn-xs btn-primary">Summary</a>
+    <a href='javascript:showCase(1)' class="btn btn-xs btn-danger">Failed</a>
+    <a href='javascript:showCase(2)' class="btn btn-xs btn-info">All</a>
 </p>
-<table id='result_table' class="table table-condensed table-bordered table-hover">
-<colgroup>
-<col align='left' />
-<col align='right' />
-<col align='right' />
-<col align='right' />
-<col align='right' />
-<col align='right' />
-<col align='right' />
-</colgroup>
-<tr id='header_row' class="text-center success" style="font-weight: bold;font-size: 14px;">
-    <td>用例集/测试用例</td>
-    <td>总计</td>
-    <td>通过</td>
-    <td>失败</td>
-    <td>错误</td>
-    <td>详细</td>
-    <td>截图</td>
-</tr>
+<table id='result_table'>
+    <colgroup>
+        <col align='left'/>
+        <col align='right'/>
+        <col align='right'/>
+        <col align='right'/>
+        <col align='right'/>
+        <col align='right'/>
+    </colgroup>
+    <tr id='header_row' class="panel-title">
+        <td>Test Group/Test case</td>
+        <td>Count</td>
+        <td>Pass</td>
+        <td>Fail</td>
+        <td>Error</td>
+        <td>View</td>
+    </tr>
 
-<tr class='passClass warning'>
-    <td>autoTest.ApiTestApp.ApiTestApp: APP接口測試</td>
-    <td class="text-center">3</td>
-    <td class="text-center">3</td>
-    <td class="text-center">0</td>
-    <td class="text-center">0</td>
-    <td class="text-center"><a href="javascript:showClassDetail('c1',3)" class="detail" id='c1'>详细</a></td>
-    <td class="text-center">Assert or Error Image</td>
-</tr>
+    <tr class='passClass'>
+        <td>AutoTest.Joy188Test2: 瀏覽器功能測試</td>
+        <td>1</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td><a href="javascript:showClassDetail('c1',1)">Detail</a></td>
+    </tr>
 
-<tr id='pt1_1' class='hiddenRow'>
-    <td class='passCase' width='300px'><div class='testcase'>test_AppLogin</div></td>
-    <td colspan='5' align='left' width='600px'> <!--print 输出框位置-->
-    <!--默认收起错误信息 -Findyou
-    <button id='btn_pt1_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt1_1'>通过</button>
-					  
-    <div id='div_pt1_1' class="collapse">  -->
-    <!-- 默认展开错误信息 -Findyou -->
-    <button id='btn_pt1_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt1_1'>通过</button>
-    <div id='div_pt1_1' class="collapse in">
-    <pre style="overflow-y:scroll; overflow-x:hidden;height:200px; width:600px; margin:auto; border:1px solid #e1e1e1;">
-			  
-			 
-    
-pt1_1: joy188
-Joy188Test3 Start
-{'head': {'sessionId': ''}, 'body': {'param': {'username': 'flask188|f009b92edc4333fd', 'loginpassSource': '3bf6add0828ee17c4603563954473c1e', 'appCode': 1, 'uuid': 'f009b92edc4333fd', 'loginIp': 2130706433, 'device': 2, 'app_id': 9, 'come_from': '3', 'appname': '1', 'jointVenture': 0}}}
-APP登入成功,登入帳號: flask188
-Token: UwA0hH/CyUD2DiU69I4jxl6orXa3VsZfDT2qJiMjVymih1BiHjgGFNgPxNBBY6n5QGSs1JgzzUc=
-Userid: 1448328
-token到期時間: 2020-8-17 17:28:38
-用時: 0.5618929862976074秒
+    <tr id='pt1.1' class='hiddenRow'>
+        <td class='none'>
+            <div class='testcase'>test_safepersonal: 修改登入密碼</div>
+        </td>
+        <td colspan='5' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt1.1')">
+                pass</a>
+            <div id='div_pt1.1' class="popup_window">
+                <div style='text-align: right; color:red;cursor:pointer'>
+                    <a onfocus='this.blur();' onclick="document.getElementById('div_pt1.1').style.display = 'none' ">
+                        [x]</a>
+                </div>
+                <pre>
+        
+pt1.1: 修改登录密码
+當前登入密碼: amberrd
+新登入密碼: 123qwe,確認新密碼: 123qwe
+恭喜twen101密码修改成功，请重新登录。
+http://www2.joy188.com/index
+twen101登入成功
 
 
-    </pre>
-    </div>
-    </td>
-    <td align="right">
-        <a hidden="hidden" href="">
-            <img   src="" height="200px" width="400px"/>
-        </a>
-    </td>
-</tr>
+        </pre>
+            </div>
+            <!--css div popup end-->
+        </td>
+    </tr>
 
-
-
-<tr id='pt1_2' class='hiddenRow'>
-    <td class='passCase' width='300px'><div class='testcase'>test_ApptransferIn</div></td>
-    <td colspan='5' align='left' width='600px'> <!--print 输出框位置-->
-    <!--默认收起错误信息 -Findyou
-    <button id='btn_pt1_2' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt1_2'>通过</button>
-					  
-    <div id='div_pt1_2' class="collapse">  -->
-    <!-- 默认展开错误信息 -Findyou -->
-    <button id='btn_pt1_2' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt1_2'>通过</button>
-    <div id='div_pt1_2' class="collapse in">
-    <pre style="overflow-y:scroll; overflow-x:hidden;height:200px; width:600px; margin:auto; border:1px solid #e1e1e1;">
-			  
-			 
-    
-pt1_2: 帳號: flask188
-轉入gns金額 10
-轉入sb金額 10
-轉入im金額 10
-轉入ky金額 10
-轉入lc金額 10
-轉入city金額 10
-gns ,sn 單號: TFTFTN64M81UWCX9GH2A47ExA1
-shaba ,sn 單號: TFTTSB64M81UWCX9GJQI47id9a
-im ,sn 單號: TFTFIM64M81UWCX9GX5N46XCvJ
-轉帳狀態失敗/逾時 : ky
-ky ,sn 單號: TFTFTK64M81UWCX9GXFI46JAtU
-lc ,sn 單號: TFTFTL64M81UWCX9GXNU46viH3
-city ,sn 單號: TFTITC64M81UWCX9GXAX468Avn
-帳號: flask188
-4.0餘額: 
-sb 的餘額為: 10.0
-im 的餘額為: 10
-gns 的餘額為: 10
-ky 的餘額為: 10
-lc 的餘額為: 10
-city 的餘額為: 10.0
-用時: 10.591533660888672秒
-用時: 47.11327791213989秒
-
-
-    </pre>
-    </div>
-    </td>
-    <td align="right">
-        <a hidden="hidden" href="">
-            <img   src="" height="200px" width="400px"/>
-        </a>
-    </td>
-</tr>
-
-
-
-<tr id='pt1_3' class='hiddenRow'>
-    <td class='passCase' width='300px'><div class='testcase'>test_ApptransferOut</div></td>
-    <td colspan='5' align='left' width='600px'> <!--print 输出框位置-->
-    <!--默认收起错误信息 -Findyou
-    <button id='btn_pt1_3' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt1_3'>通过</button>
-					  
-    <div id='div_pt1_3' class="collapse">  -->
-    <!-- 默认展开错误信息 -Findyou -->
-    <button id='btn_pt1_3' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt1_3'>通过</button>
-    <div id='div_pt1_3' class="collapse in">
-    <pre style="overflow-y:scroll; overflow-x:hidden;height:200px; width:600px; margin:auto; border:1px solid #e1e1e1;">
-			  
-			 
-    
-pt1_3: 帳號: flask188
-gns 轉出金額 10
-sb 轉出金額 10
-im 轉出金額 10
-ky 轉出金額 10
-lc 轉出金額 10
-city 轉出金額 10
-gns, sn 單號: ZMguoAVcNafNmST
-shaba, sn 單號: TFTSBM64M81UWCX9HABO44OAeJ
-im, sn 單號: TFTITM64M81UWCX9H7QJ45dZNY
-ky, sn 單號: TFTKTM64M81UWCX9H888453Nn6
-lc, sn 單號: TFTLTM64M81UWCX9HASR44vEO6
-city, sn 單號: TFTCTM64M81UWCX9HANJ44EQDc
-帳號: flask188
-4.0餘額: 
-gns 的餘額為: 0
-sb 的餘額為: 0.0
-im 的餘額為: 0
-lc 的餘額為: 0
-ky 的餘額為: 0
-city 的餘額為: 0.0
-用時: 0.429210901260376秒
-用時: 29.361445426940918秒
-
-
-    </pre>
-    </div>
-    </td>
-    <td align="right">
-        <a hidden="hidden" href="">
-            <img   src="" height="200px" width="400px"/>
-        </a>
-    </td>
-</tr>
-
-
-
-<tr id='total_row' class="text-center active">
-    <td>总计</td>
-    <td>3</td>
-    <td>3</td>
-    <td>0</td>
-    <td>0</td>
-    <td>通过率：100.00%</td>
-    <td> <a href="" target="_blank"></a></td>
-</tr>
+    <tr id='total_row'>
+        <td>Total</td>
+        <td>1</td>
+        <td class="text text-success">1</td>
+        <td class="text text-danger">0</td>
+        <td class="text text-warning">0</td>
+        <td>&nbsp;</td>
+    </tr>
 </table>
 
 <div id='ending'>&nbsp;</div>
-    <div style=" position:fixed;right:50px; bottom:30px; width:20px; height:20px;cursor:pointer">
-    <a href="#"><span class="glyphicon glyphicon-eject" style = "font-size:30px;" aria-hidden="true">
-    </span></a></div>
-    
-				
+
+<script type="text/javascript">
+    var data = [
+        {
+            name: 'error',
+            value: 0,
+            color: "#D35400",
+            label: "Error",
+            labelColor: 'white',
+            labelFontSize: '16'
+        },
+        {
+            name: 'fail',
+            value: 0,
+            color: "#D4AC0D",
+            label: "Fail",
+            labelColor: 'white',
+            labelFontSize: '16'
+        },
+        {
+            name: 'pass',
+            value: 1,
+            color: "#28B463",
+            label: "Pass",
+            labelColor: 'white',
+            labelFontSize: '16'
+        }
+    ]
+    var newopts = {
+        animationSteps: 100,
+        animationEasing: 'easeInOutQuart',
+    }
+    //Get the context of the canvas element we want to select
+    var ctx = document.getElementById("myChart").getContext("2d");
+    var myNewChart = new Chart(ctx).Pie(data, newopts);
+</script>
+
 </body>
 </html>
